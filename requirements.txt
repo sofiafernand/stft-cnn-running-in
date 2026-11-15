@@ -1,0 +1,13 @@
+h5py==3.14.0
+instructor==1.2.5
+matplotlib==3.11.1
+numpy==2.5.1
+openai==1.20.0
+optuna==4.9.0
+optuna-dashboard==0.20.0
+pandas==3.0.5
+pydantic==2.7.0
+pydantic-settings==2.2.1
+scikit-learn==1.9.0
+scipy==1.18.0
+tensorflow==2.21.0

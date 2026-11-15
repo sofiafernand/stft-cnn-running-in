@@ -2,6 +2,12 @@
 
 Arquitetura de software composta por um pipeline de extração de características tempo-frequência (STFT), classificação via Redes Neurais Convolucionais (CNN) e um agente de Inteligência Artificial Generativa para emissão de diagnósticos estruturados.
 
+## Restrição de Dados e Reprodutibilidade
+
+Os diretórios `./dados_brutos` e `./resultados` referenciados no código não estão incluídos neste repositório. O dataset original de sinais acústicos e de vibração pertence ao escopo do programa PRH-ANP 02/UFSC e Labmetro, possuindo restrições estritas de propriedade intelectual e confidencialidade acadêmica/industrial. 
+
+Desta forma, a execução local (end-to-end) por terceiros não é possível. O código fonte está disponibilizado com o objetivo de demonstrar a arquitetura de software, a estruturação de pipelines de Machine Learning e a integração determinística de LLMs em ambiente de produção (Structured Outputs).
+
 ## Pré-requisitos
 
 - Python 3.10+
@@ -22,44 +28,57 @@ Arquitetura de software composta por um pipeline de extração de característic
 ## Instalação
 
 1. Clone o repositório:
-git clone https://github.com/sofiafernand/stft-cnn-running-in.git
+```bash
+git clone [https://github.com/sofiafernand/stft-cnn-running-in.git](https://github.com/sofiafernand/stft-cnn-running-in.git)
+```
 
 2. Acesse o diretório do projeto:
+```bash
 cd stft-cnn-running-in
+```
 
 3. Instale as dependências:
+```bash
 pip install -r requirements.txt
+```
 
 ## Configuração
 
-Crie um arquivo .env na raiz do projeto com base no arquivo .env.example. As seguintes variáveis de ambiente determinam o comportamento do pipeline e da camada de inferência:
+Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example`. As seguintes variáveis de ambiente determinam o comportamento do pipeline e da camada de inferência:
 
 | Variável | Descrição | Valor Padrão / Exemplo |
 | --- | --- | --- |
-| FREQUENCIA_AMOSTRAGEM | Frequência de aquisição dos sinais em Hz | 25600 |
-| CAMINHO_DADOS | Diretório de leitura dos dados brutos | ./dados_brutos |
-| CAMINHO_RESULTADOS | Diretório de gravação dos tensores HDF5 e modelos | ./resultados |
-| OPENAI_API_KEY | Chave de autenticação da API da OpenAI | sk-... |
-| LLM_MODEL | Identificador do modelo de linguagem utilizado | gpt-4-turbo |
-| LLM_TEMPERATURE | Parâmetro de temperatura do modelo de linguagem | 0.1 |
+| `FREQUENCIA_AMOSTRAGEM` | Frequência de aquisição dos sinais em Hz | 25600 |
+| `CAMINHO_DADOS` | Diretório de leitura dos dados brutos | `./dados_brutos` |
+| `CAMINHO_RESULTADOS` | Diretório de gravação dos tensores HDF5 e modelos | `./resultados` |
+| `OPENAI_API_KEY` | Chave de autenticação da API da OpenAI | `sk-...` |
+| `LLM_MODEL` | Identificador do modelo de linguagem utilizado | `gpt-4-turbo` |
+| `LLM_TEMPERATURE` | Parâmetro de temperatura do modelo de linguagem | `0.1` |
 
-## Uso
+## Uso (Referência Arquitetural)
 
-O repositório é dividido em ambiente de experimentação (research_pipeline) e ambiente de produção (src).
+O repositório é dividido em ambiente de experimentação (`research_pipeline`) e ambiente de produção (`src`). Os comandos abaixo ilustram o fluxo de execução projetado, exigindo a presença dos datasets originais.
 
-Para executar a extração de dados e o treinamento do modelo preditivo:
+Pipeline de extração de dados e treinamento do modelo preditivo (Pesquisa):
+```bash
 python research_pipeline/etapa1_stft_fabrica_datasets.py
 python research_pipeline/etapa3_otimizacao_continua.py
 python research_pipeline/etapa4_treinamento_final.py
+```
 
-Para monitorar a otimização de hiperparâmetros (Optuna), acesse no navegador:
+Monitoramento da otimização de hiperparâmetros (Optuna):
+```text
 http://localhost:8080
+```
 
-Para executar o agente de Inteligência Artificial Generativa e obter o JSON estruturado:
+Execução do agente de Inteligência Artificial Generativa (Produção):
+```bash
 python src/etapa5_agente_genai.py
+```
 
 ## Estrutura de Pastas
 
+```text
 .
 ├── .env.example
 ├── .gitignore
@@ -77,6 +96,7 @@ python src/etapa5_agente_genai.py
     ├── etapa3_otimizacao_optuna.py
     ├── etapa4_avaliacao_cnn.py
     └── etapa5_agente_genai.py
+```
 
 ## Licença
 
